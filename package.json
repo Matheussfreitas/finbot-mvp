@@ -1,0 +1,24 @@
+{
+  "name": "finbot-mvp",
+  "version": "1.0.0",
+  "description": "Whatsapp channel application to help through finances",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Matheussfreitas/finbot-mvp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Matheussfreitas/finbot-mvp/issues"
+  },
+  "homepage": "https://github.com/Matheussfreitas/finbot-mvp#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.34.2"
+  }
+}
