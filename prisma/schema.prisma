@@ -10,13 +10,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 model Contact {
-  id        String    @id @default(uuid())
-  phone     String    @unique
-  name      String?
-  messages  Message[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id           String        @id @default(uuid())
+  phone        String        @unique
+  name         String?
+  messages     Message[]
+  transactions Transaction[]
+  categories   Category[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 }
 
 model Message {
@@ -27,3 +30,27 @@ model Message {
   contact   Contact  @relation(fields: [contactId], references: [id])
   createdAt DateTime @default(now())
 }
+
+model Category {
+  id        String        @id @default(uuid())
+  name      String
+  type      String        // 'EXPENSE' or 'INCOME'
+  contactId String?       // Null for default categories
+  contact   Contact?      @relation(fields: [contactId], references: [id])
+  transactions Transaction[]
+  createdAt DateTime      @default(now())
+}
+
+model Transaction {
+  id          String    @id @default(uuid())
+  type        String    // 'EXPENSE' or 'INCOME'
+  amount      Float
+  description String?
+  date        DateTime  @default(now())
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
+  contactId   String
+  contact     Contact   @relation(fields: [contactId], references: [id])
+  createdAt   DateTime  @default(now())
+}
+

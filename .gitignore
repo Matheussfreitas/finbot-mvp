@@ -6,4 +6,4 @@ dist/
 build/
 *.log
 .wwebjs_auth/
-.wwwebjs_cache/
+.wwebjs_cache/

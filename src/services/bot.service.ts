@@ -48,12 +48,12 @@ export class BotService {
       // Save user message
       await this.chatRepository.saveMessage(contact.id, 'user', msg.body);
 
-      // Get history for context
-      const history = await this.chatRepository.getHistory(contact.id, 10);
+      // Get history for context (Increased limit as requested)
+      const history = await this.chatRepository.getHistory(contact.id, 50);
       const formattedHistory = history.map(m => ({ role: m.role as 'user' | 'model', content: m.content }));
 
       // Generate AI response for other messages
-      const aiResponse = await aiService.generateResponse(msg.body, formattedHistory);
+      const aiResponse = await aiService.generateResponse(msg.body, formattedHistory, msg.from);
       
       // Save AI response
       await this.chatRepository.saveMessage(contact.id, 'model', aiResponse);
