@@ -1,4 +1,5 @@
 import { PrismaClient, Transaction } from '@prisma/client';
+import { logger } from '../utils/logger';
 
 const prisma = new PrismaClient();
 
@@ -11,6 +12,7 @@ export class TransactionRepository {
         categoryId?: string,
         date?: Date
     ): Promise<Transaction> {
+        logger.info('TransactionRepository', `Creating transaction: ${type} ${amount} for ${contactId}`, { categoryId, description });
         return prisma.transaction.create({
             data: {
                 contactId,
@@ -24,6 +26,7 @@ export class TransactionRepository {
     }
 
     async getBalance(contactId: string): Promise<{ income: number, expense: number, total: number }> {
+        logger.debug('TransactionRepository', `Calculating balance for ${contactId}`);
         const aggregations = await prisma.transaction.groupBy({
             by: ['type'],
             where: { contactId },
@@ -40,11 +43,13 @@ export class TransactionRepository {
             if (ago.type === 'EXPENSE') expense = ago._sum.amount || 0;
         });
 
-        return {
+        const balance = {
             income,
             expense,
             total: income - expense
         };
+        logger.debug('TransactionRepository', `Balance calculated`, balance);
+        return balance;
     }
     
     // Future: Report methods
