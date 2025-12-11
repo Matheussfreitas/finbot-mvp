@@ -5,3 +5,5 @@ npm-debug.log*
 dist/
 build/
 *.log
+.wwebjs_auth/
+.wwwebjs_cache/
